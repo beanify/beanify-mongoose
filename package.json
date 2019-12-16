@@ -1,11 +1,10 @@
 {
   "name": "beanify-mongoose",
-  "version": "1.0.0",
+  "version": "1.0.1",
   "description": "beanify操作mongodb插件",
   "main": "index.js",
   "scripts": {
-    "test": "tap test/**/*.test.js --100 --cov --coverage-report=text",
-    "unit": "tap test/**/*.test.js --100 --cov --coverage-report=lcov"
+    "test": "tap test/**/*.test.js --100 --cov --coverage-report=text"
   },
   "repository": {
     "type": "git",
@@ -18,13 +17,13 @@
     "beanify"
   ],
   "author": "xufangyi",
-  "license": "ISC",
+  "license": "MIT",
   "bugs": {
     "url": "https://github.com/beanify/beanify-mongoose/issues"
   },
   "homepage": "https://github.com/beanify/beanify-mongoose#readme",
   "dependencies": {
-    "mongoose": "^5.7.8"
+    "mongoose": "^5.8.1"
   },
   "devDependencies": {
     "beanify": "^1.0.10",
