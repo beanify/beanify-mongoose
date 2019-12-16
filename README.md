@@ -1,2 +1,2 @@
-# beanify-mongoose
-beanify操作mongoDB插件beanify-mongoose
+# hemera-mongoose-store
+hemera操作mongodb插件
