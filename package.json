@@ -1,6 +1,6 @@
 {
   "name": "beanify-mongoose",
-  "version": "1.0.1",
+  "version": "1.0.2",
   "description": "beanify操作mongodb插件",
   "main": "index.js",
   "scripts": {
@@ -23,11 +23,6 @@
   },
   "homepage": "https://github.com/beanify/beanify-mongoose#readme",
   "dependencies": {
-    "mongoose": "^5.8.1"
-  },
-  "devDependencies": {
-    "beanify": "^1.0.10",
-    "beanify-plugin": "^1.0.6",
-    "tap": "^14.9.1"
+    "mongoose": "^5.9.28"
   }
 }
