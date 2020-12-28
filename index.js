@@ -1,5 +1,3 @@
-"use strict";
-
 const beanifyPlugin = require('beanify-plugin')
 const mongoose = require('mongoose')
 
@@ -7,7 +5,6 @@ const fixReferences = (decorator, schema) => {
   Object.keys(schema).forEach((key) => {
     if (schema[key].type === 'ObjectId') {
       schema[key].type = mongoose.Schema.Types.ObjectId
-
       if (schema[key].validateExistance) {
         delete schema[key].validateExistance
         schema[key].validate = {
@@ -55,14 +52,16 @@ module.exports = beanifyPlugin(async function (beanify, {
   settings,
   models = [],
   useNameAndAlias = false
-}) {
+}, next) {
   try {
+    settings = settings || {
+      useNewUrlParser: true,
+      useUnifiedTopology: true
+    }
     await mongoose.connect(uri, settings)
-
     decorator = {
       instance: mongoose,
     }
-
     if (models.length !== 0) {
       models.forEach((model) => {
         fixReferences(decorator, model.schema)
@@ -79,7 +78,7 @@ module.exports = beanifyPlugin(async function (beanify, {
 
         if (useNameAndAlias) {
           if (model.alias === undefined) {
-            throw new Error(`No alias defined for ${model.name}`)
+            next(new Error(`No alias defined for ${model.name}`))
           }
           decorator[model.alias] = mongoose.model(
             model.alias,
@@ -95,23 +94,18 @@ module.exports = beanifyPlugin(async function (beanify, {
         }
       })
     }
-
-    beanify.addHook('onClose', (app, done) => {
-      app.mongoose.instance.connection.on('close', function () {
+    beanify.addHook('onClose', function() {
+      mongoose.connection.on('close', function () {
         beanify.$log.info('Mongodb connection closed!')
-        done()
       })
-      app.mongoose.instance.connection.close()
+      mongoose.connection.close()
     })
-
     beanify.decorate('mongoose', decorator)
     beanify.$log.info('mongoDB connected!')
-  } catch (err) {
-    beanify.$log.error(`mongoDB connect Error:${err}`)
+  } catch (error) {
+    beanify.$log.error(`mongoDB connect Error:${error}`)
+    next(error)
   }
-}, {
-  beanify: '>=2.0.3',
-  name: 'mongoosePlugin'
 })
 
 module.exports.decorator = () => decorator
