@@ -4,13 +4,13 @@ const beanifyPlugin = require('beanify-plugin')
 const mongoose = require('mongoose')
 
 const fixReferences = (decorator, schema) => {
-  Object.keys(schema).forEach((key) => {
+  Object.keys(schema).forEach(key => {
     if (schema[key].type === 'ObjectId') {
       schema[key].type = mongoose.Schema.Types.ObjectId
       if (schema[key].validateExistance) {
         delete schema[key].validateExistance
         schema[key].validate = {
-          validator: async (v) => {
+          validator: async v => {
             try {
               await decorator[schema[key].ref].findById(v)
             } catch (e) {
@@ -22,13 +22,13 @@ const fixReferences = (decorator, schema) => {
         }
       }
     } else if (schema[key].length !== undefined) {
-      schema[key].forEach((member) => {
+      schema[key].forEach(member => {
         if (member.type === 'ObjectId') {
           member.type = mongoose.Schema.Types.ObjectId
           if (member.validateExistance) {
             delete member.validateExistance
             member.validate = {
-              validator: async (v) => {
+              validator: async v => {
                 try {
                   await decorator[member.ref].findById(v)
                 } catch (e) {
@@ -47,12 +47,11 @@ const fixReferences = (decorator, schema) => {
 
 let decorator
 
-module.exports = beanifyPlugin(async function (beanify, {
-  uri,
-  settings,
-  models = [],
-  useNameAndAlias = false
-}, next) {
+module.exports = beanifyPlugin(async function (
+  beanify,
+  { uri, settings, models = [], useNameAndAlias = false },
+  next
+) {
   try {
     settings = settings || {
       useNewUrlParser: true,
@@ -63,7 +62,7 @@ module.exports = beanifyPlugin(async function (beanify, {
       instance: mongoose
     }
     if (models.length !== 0) {
-      models.forEach((model) => {
+      models.forEach(model => {
         fixReferences(decorator, model.schema)
         const schema = new mongoose.Schema(model.schema, model.options)
         if (model.class) {

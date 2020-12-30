@@ -1,19 +1,17 @@
-import mongoose from 'mongoose'
+import mongooseType from 'mongoose'
 import { Beanify as beanify } from 'beanify'
 
 import { BeanifyMongoose, BeanifyMongooseOptions } from './types/options'
+
 declare const mongoose: BeanifyMongoose
 
 declare const decorator: () => {
-  [key: string]: mongoose.Model<unknown, unknown>
+  [key: string]: mongooseType.Model<any>
 } & {
-  instance: mongoose.Mongoose
+  instance: mongooseType.Mongoose
 }
 
-export {
-  mongoose,
-  decorator
-}
+export { mongoose, decorator }
 
 declare module 'beanify' {
   interface BeanifyPlugin {
@@ -22,9 +20,9 @@ declare module 'beanify' {
 
   interface Beanify {
     mongoose: {
-      [key: string]: mongoose.Model<unknown, unknown>
+      [key: string]: mongooseType.Model<any>
     } & {
-      instance: mongoose.Mongoose
+      instance: mongooseType.Mongoose
     }
   }
 }
