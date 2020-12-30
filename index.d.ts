@@ -1,5 +1,5 @@
 import mongoose from 'mongoose'
-import { Beanify } from 'beanify'
+import { Beanify as beanify } from 'beanify'
 
 import { BeanifyMongoose, BeanifyMongooseOptions } from './types/options'
 declare const mongoose: BeanifyMongoose
@@ -17,7 +17,7 @@ export {
 
 declare module 'beanify' {
   interface BeanifyPlugin {
-    (plugin: BeanifyMongoose, options: BeanifyMongooseOptions): Beanify
+    (plugin: BeanifyMongoose, options: BeanifyMongooseOptions): beanify
   }
 
   interface Beanify {

@@ -1,6 +1,7 @@
-import { ConnectionOptions, Schema, SchemaTypes, SchemaTypeOptions } from 'mongoose'
+import { ConnectionOptions, Schema, SchemaTypeOptions } from 'mongoose'
 import { Beanify, PluginOptions, PluginDoneCallback } from 'beanify'
 
+// @ts-ignore
 export class BeanifyMongooseOptions extends PluginOptions {
   uri: string
   models?: Array<{
@@ -12,6 +13,7 @@ export class BeanifyMongooseOptions extends PluginOptions {
     }
     virtualize?: (schema: Schema) => void
   }>
+
   useNameAndAlias?: boolean
   settings?: ConnectionOptions
 }
